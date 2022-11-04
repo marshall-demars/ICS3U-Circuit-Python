@@ -53,7 +53,7 @@ def game_scene():
         if keys & ugame.K_UP:
             ship.move(ship.x, ship.y - 1)
         if keys & ugame.K_DOWN:
-            ship.move(ship.x, ship.y - 1)
+            ship.move(ship.x, ship.y + 1)
 
         # update game logic
 
