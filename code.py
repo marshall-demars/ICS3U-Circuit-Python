@@ -16,6 +16,18 @@ def game_scene():
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
 
+    # buttons that you want to keep state information on
+    a_button = constants.button_state["button_up"]
+    b_button = constants.button_state["button_up"]
+    start_button = constants.button_state["button_up"]
+    select_button = constants.button_state["button_up"]
+
+    # get sound ready
+    pew_sound = open("pew.wav", "rb")
+    sound = ugame.audio
+    sound.stop()
+    sound.mute(False)
+
     # set the background to image 0 in the image bank
     #    and the size (10x8 tiles of size 16x16)
     background = stage.Grid(image_bank_background, 10, 8)
@@ -25,12 +37,19 @@ def game_scene():
         image_bank_sprites, 5, 75, constants.SCREEN_Y - (2 * constants.SPRITE_SIZE)
     )
 
+    alien = stage.Sprite(
+        image_bank_sprites,
+        9,
+        int(constants,SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
+        16,
+    )
+
     # create a stage for the background to show up on
     #    and set the frame rate to 60fps
     game = stage.Stage(ugame.display, constants.FPS)
 
     # set the layers of all sprites, items show up in order
-    game.layers = [ship] + [background]
+    game.layers = [ship] + [alien] + [background]
 
     # render all sprites
     #    most likely you will only render the background once per game scene
@@ -41,8 +60,18 @@ def game_scene():
         # get user input
         keys = ugame.buttons.get_pressed()
 
+        # A button to fire
         if keys & ugame.K_X:
-            pass
+            if a_button == constants.button_state["button_up"]:
+                a_button = constants.button_state["button_just_pressed"]
+            elif a_button == constants.button_state["button_just_pressed"]:
+                a_button = constants.button_state["button_just_pressed"]
+        else:
+            if a_button == constants.button_state["button_just_pressed"]:
+                a_button = constants.button_state["button_released"]
+            else:
+                a_button = constants.button_state["button_up"]
+
         if keys & ugame.K_O:
             pass
         if keys & ugame.K_START:
@@ -66,9 +95,12 @@ def game_scene():
         if keys & ugame.K_DOWN:
             ship.move(ship.x, ship.y + 1)
         # update game logic
+        # play sound if A was just button_just_pressed
+        if a_button == constants.button_state["button_just_pressed"]:
+            sound.play(pew_sound)
 
         # redraw Sprite
-        game.render_sprites([ship])
+        game.render_sprites([ship] + [alien])
         game.tick()  # wait until refresh rate finishes
 
 
