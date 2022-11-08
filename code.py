@@ -40,7 +40,7 @@ def game_scene():
     alien = stage.Sprite(
         image_bank_sprites,
         9,
-        int(constants,SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
+        int(constants.SCREEN_X / 2 - constants.SPRITE_SIZE / 2),
         16,
     )
 
