@@ -4,10 +4,11 @@
 # Created on: November 2022
 # This program is the "Space Aliens" program on the PyBadge
 
-import constants
 import random
-import stage
 import time
+
+import constants
+import stage
 import ugame
 
 
@@ -15,38 +16,37 @@ def splash_scene():
     # this function is the splash scene game loop
 
     # get sound ready
-    coin_sound = open("coin.wav", 'rb')
+    coin_sound = open("con.wav", "rb")
     sound = ugame.audio
     sound.stop()
     sound.mute(False)
     sound.play(coin_sound)
 
-    # an image bank for Circuitpython
+    # an image bank for CircuitPython
     image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
 
     # sets the background to image 0 in the bank
-    background = stage.Grid(image_bank_mt_background, constants.SCREEN_X, constants.SCREEN_Y)
+    background = stage.Grid(
+        image_bank_mt_background, constants.SCREEN_X, constants.SCREEN_Y
+    )
 
     # create a stage for the background to show up on
-    #    and set the frame rate to 60 fps
+    #  and set the frame rate to 60fps
     game = stage.Stage(ugame.display, constants.FPS)
     # set the layers, items show up in order
     game.layers = [background]
-    # render the background and initial location of sprite list
-    # most likely you will only render background once per scene
+    # render background
     game.render_block()
 
-    # repeat forever, game loop
     while True:
-        # wait for 1 seconds
         time.sleep(1.0)
         menu_scene()
+
 
 def menu_scene():
     # This function is the main game game_scene
 
-    # image banks for CircuitPython
-    image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
+    image_bank_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
 
     # add text objects
     text = []
@@ -70,7 +70,7 @@ def menu_scene():
     )
 
     # used this program to split the image into tile:
-    #    https://ezgif.com/sprite_cutter/ezgif-5-818cdbcc3f66.png
+    #   https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
     background.tile(2, 2, 0)  # blank white
     background.tile(3, 2, 1)
     background.tile(4, 2, 2)
@@ -138,12 +138,9 @@ def game_scene():
     sound.mute(False)
 
     # set the background to image 0 in the image bank
-    background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X, 
-        constants.SCREEN_GRID_Y)
-    for x_location in range(constants.SCREEN_GRID_X):
-        for y_location in range(constants.SCREEN_GRID_Y):
-            tile_picked = random.randint(1, 3)
-            background.tile(x_location, y_location, tile_picked)
+    background = stage.Grid(
+        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
 
     # a sprite that will be updated every frame
     ship = stage.Sprite(
