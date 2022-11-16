@@ -139,7 +139,7 @@ def game_scene():
     # set the background to image 0 in the image bank
     background = stage.Grid(
         image_bank_background, constants.SCREEN_GRID_X,  constants.SCREEN_GRID_Y
-        )
+    )
     for x_location in range(constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
             tile_picked = random.randint(1, 3)
@@ -164,7 +164,6 @@ def game_scene():
             image_bank_sprites, 10, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
         )
         lasers.append(a_single_laser)
-
 
     # create a stage for the background to show up on
     #  and set the frame rate to 60 fps
@@ -225,7 +224,7 @@ def game_scene():
             if lasers[laser_number].x > 0:
                 lasers[laser_number].move(
                     lasers[laser_number].x,
-                    lasers[laser_number].y - constants.LASER_SPEED
+                    lasers[laser_number].y - constants.LASER_SPEED,
                 )
                 if lasers[laser_number].y < constants.OFF_TOP_SCREEN:
                     lasers[laser_number].move(
