@@ -137,8 +137,9 @@ def game_scene():
     sound.mute(False)
 
     # set the background to image 0 in the image bank
-    background = stage.Grid(image_bank_background, constants.SCREEN_GRID_X,
-        constants.SCREEN_GRID_Y)
+    background = stage.Grid(
+        image_bank_background, constants.SCREEN_GRID_X,  constants.SCREEN_GRID_Y
+        )
     for x_location in range(constants.SCREEN_GRID_X):
         for y_location in range(constants.SCREEN_GRID_Y):
             tile_picked = random.randint(1, 3)
@@ -159,9 +160,9 @@ def game_scene():
     # create list of lasers for when we shoot
     lasers = []
     for laser_number in range(constants.TOTAL_NUMBER_OF_LASERS):
-        a_single_laser = stage.Sprite(image_bank_sprites, 10,
-        constants.OFF_SCREEN_X,
-        constants.OFF_SCREEN_Y)
+        a_single_laser = stage.Sprite(
+            image_bank_sprites, 10, constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+        )
         lasers.append(a_single_laser)
 
 
@@ -183,7 +184,7 @@ def game_scene():
             if a_button == constants.button_state["button_up"]:
                 a_button = constants.button_state["button_just_pressed"]
             elif a_button == constants.button_state["button_just_pressed"]:
-               a_button = constants.button_state["button_still_pressed"]
+                a_button = constants.button_state["button_still_pressed"]
         else:
             if a_button == constants.button_state["button_still_pressed"]:
                 a_button = constants.button_state["button_released"]
@@ -219,19 +220,21 @@ def game_scene():
                     sound.play(pew_sound)
                     break
 
-        # each frame move the lasers, that have been fired up 
+        # each frame move the lasers, that have been fired up
         for laser_number in range(len(lasers)):
             if lasers[laser_number].x > 0:
-                lasers[laser_number].move(lasers[laser_number].x,
-                lasers[laser_number].y -
-                constants.LASER_SPEED)
+                lasers[laser_number].move(
+                    lasers[laser_number].x,
+                    lasers[laser_number].y - constants.LASER_SPEED
+                )
                 if lasers[laser_number].y < constants.OFF_TOP_SCREEN:
-                    lasers[laser_number].move(constants.OFF_SCREEN_X,
-                    constants.OFF_SCREEN_Y)
+                    lasers[laser_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
 
         # redraw Sprite
         game.render_sprites(lasers + [ship] + [alien])
-        game.tick() # wait until rfresh rate finishes
+        game.tick()  # wait until rfresh rate finishes
 
 
 if __name__ == "__main__":
