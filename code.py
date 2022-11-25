@@ -268,7 +268,10 @@ def game_scene():
                     )
                     show_alien()
 
-        # each frame check if any of the lasers are touching any of the aliens
+        game.render_sprites(aliens + lasers + [ship])
+        game.tick()
+
+    # each frame check if any of the lasers are touching any of the aliens
         for laser_number in range(len(lasers)):
             if lasers[laser_number].x > 0:
                 for alien_number in range(len(aliens)):
@@ -296,10 +299,6 @@ def game_scene():
                             show_alien()
                             alien_count = alien_count + 1
                             score = score + 1
-
-        game.render_sprites(aliens + lasers + [ship])
-        game.tick()
-
 
 if __name__ == "__main__":
     splash_scene()
