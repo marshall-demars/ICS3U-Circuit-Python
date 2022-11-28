@@ -3,7 +3,6 @@
 # Created by: Marshall Demars
 # Created on: November 2022
 # This program is the "Space Aliens" program on the PyBadge
-
 import random
 import time
 
@@ -126,10 +125,12 @@ def game_scene():
     alien_count = 0
     score = 0
 
-    score_text = stage.Text(width=29, height=14, font=None palette=constants.RED_PALETTE, buffer=None)
+    score_text = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALETTE, buffer=None
+    )
     score_text.clear()
-    score_text.cursor(0,0)
-    score_text.move(1,1)
+    score_text.cursor(0, 0)
+    score_text.move(1, 1)
     score_text.text("Score: {0}".format(score))
 
     def show_alien():
@@ -199,8 +200,10 @@ def game_scene():
     # create a stage for the background to show up on
     #  and set the frame rate to 60 fps
     game = stage.Stage(ugame.display, constants.FPS)
+
     # set the layers of all sprites, items show up in order
-    game.layers = [score_text] + aliens + lasers + [ship] + [background]
+    game.layers = [score_text] + lasers + [ship] + aliens + [background]
+
     # render all sprites
     game.render_block()
 
@@ -272,15 +275,14 @@ def game_scene():
                     )
                     show_alien()
                     score -= 1
+                    if score < 0:
+                        score = 0
                     score_text.clear()
-                    score_text.cursor(0,0)
-                    score_text.move(1,1)
+                    score_text.cursor(0, 0)
+                    score_text.move(1, 1)
                     score_text.text("Score: {0}".format(score))
 
-        game.render_sprites(aliens + lasers + [ship])
-        game.tick()
-
-    # each frame check if any of the lasers are touching any of the aliens
+        # each frame check if any of the lasers are touching any of the aliens
         for laser_number in range(len(lasers)):
             if lasers[laser_number].x > 0:
                 for alien_number in range(len(aliens)):
@@ -302,18 +304,19 @@ def game_scene():
                             lasers[laser_number].move(
                                 constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
                             )
-                            # add 1 to the score
-                            score += 1
-                            score_text.clear()
-                            score_text.cursor(0,0)
-                            score_text.move(1,1)
-                            score_text.text("Score: {0}".format(score))
                             sound.stop()
                             sound.play(boom_sound)
                             show_alien()
                             show_alien()
-                            alien_count = alien_count + 1
                             score = score + 1
+                            score_text.clear()
+                            score_text.cursor(0, 0)
+                            score_text.move(1, 1)
+                            score_text.text("Score: {0}".format(score))
+
+        game.render_sprites(aliens + lasers + [ship])
+        game.tick()
+
 
 if __name__ == "__main__":
     splash_scene()
